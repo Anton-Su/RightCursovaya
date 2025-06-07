@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:padding="12dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Левая часть: текстовая информация -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"> <!-- Центрирование текста -->
+
+            <!-- ФИО врача -->
+            <TextView
+                android:id="@+id/tvFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Иванов Иван Иванович"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/black" />
+
+            <!-- Специализация -->
+            <TextView
+                android:id="@+id/tvSpecialization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Терапевт"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- День рождения -->
+            <TextView
+                android:id="@+id/tvBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="День рождения: 12.03.1980"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Даты отпуска -->
+            <TextView
+                android:id="@+id/tvVacationDates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Отпуск: 01.07.2025 — 14.07.2025"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Кнопки -->
+            <LinearLayout
+                android:id="@+id/buttonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center"> <!-- Центрирование кнопок -->
+
+                <Button
+                    android:id="@+id/btnReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:text="Пожаловаться"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Изменить"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@android:color/holo_blue_light"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Правая часть: изображение -->
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            android:layout_marginStart="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Фото врача" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

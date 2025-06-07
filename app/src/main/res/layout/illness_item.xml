@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:padding="12dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Левая часть: текстовая информация -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"> <!-- Центрирование текста -->
+
+            <!-- Название болезни -->
+            <TextView
+                android:id="@+id/tvFullIllnessName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Простуда"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/black" />
+            <!-- Описание -->
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Острая респираторная инфекция, сопровождающаяся насморком, кашлем и повышением температуры."
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Рекомендации -->
+            <TextView
+                android:id="@+id/tvRecommendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Постельный режим, обильное питье, жаропонижающие средства."
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Кнопки -->
+            <LinearLayout
+                android:id="@+id/buttonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center"> <!-- Центрирование кнопок -->
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="265dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@android:color/holo_blue_light"
+                    android:text="Удалить"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="roles">
+        <item>Администратор</item>
+        <item>Врач</item>
+        <item>Пациент</item>
+    </string-array>
+    <string-array name="registration_or_autorization">
+        <item>Регистрация</item>
+        <item>Авторизация</item>
+    </string-array>
+</resources>

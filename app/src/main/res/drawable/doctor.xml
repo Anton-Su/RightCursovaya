@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="#000000">
+
+
+    <path android:fillColor="@android:color/white" android:pathData="M2,3a2,2 0 1,0 4,0a2,2 0 1,0 -4,0z"/>
+    <!-- Тело с вырезом под крест -->
+    <path android:fillColor="@android:color/white" android:fillType="evenOdd"
+        android:pathData="
+            M1.5,6h5v11h-5z
+            M3.75,9h0.5v1.5h1.5v0.5h-1.5v1.5h-0.5v-1.5h-1.5v-0.5h1.5z"/>
+    <path android:fillColor="@android:color/white" android:pathData="M10,3a2,2 0 1,0 4,0a2,2 0 1,0 -4,0z"/>
+    <!-- Тело с вырезом под крест -->
+    <path android:fillColor="@android:color/white" android:fillType="evenOdd"
+        android:pathData="
+            M9.5,6h5v11h-5z
+            M11.75,9h0.5v1.5h1.5v0.5h-1.5v1.5h-0.5v-1.5h-1.5v-0.5h1.5z"/>
+    <path android:fillColor="@android:color/white" android:pathData="M18,3a2,2 0 1,0 4,0a2,2 0 1,0 -4,0z"/>
+    <!-- Тело с вырезом под крест -->
+    <path android:fillColor="@android:color/white" android:fillType="evenOdd"
+        android:pathData="
+            M17.5,6h5v11h-5z
+            M19.75,9h0.5v1.5h1.5v0.5h-1.5v1.5h-0.5v-1.5h-1.5v-0.5h1.5z"/>
+</vector>
