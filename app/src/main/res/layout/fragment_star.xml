@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StarFragment"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle"
+        android:dividerPadding="12dp">
+
+        <!-- Фото -->
+        <ImageView
+            android:id="@+id/image_about"
+            android:layout_width="wrap_content"
+            android:layout_height="307dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Фото учреждения"
+            android:src="@drawable/reklama" />
+
+        <!-- Адрес и телефоны -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_gray"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/text_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍 Адрес: г. Москва, ул. Примерная, д. 1"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/text_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📞 Дежурный телефон (Оксана):\n +7 (999) 123-45-67"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/text_phone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📞 Дежурный телефон (Кирилл):\n +7 (432) 721-44-19"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Почему мы лучше -->
+        <TextView
+            android:id="@+id/text_advantage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_gray"
+            android:text="✅ Почему мы лучше конкурентов:\n• У нас добрые глаза"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Самолечение зло -->
+        <TextView
+            android:id="@+id/text_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_red"
+            android:text="⚠ Самолечение — зло. Приходите, не съедим!\nТолько ограбим морально немножко — вы не представляете, как нам скучно =)"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#C62828"
+            android:layout_marginBottom="24dp"
+            android:gravity="start" />
+
+        <!-- Скидка -->
+        <TextView
+            android:id="@+id/text_discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_green"
+            android:text="🎉 Мы бесплатная поликлиника!\n\n\n\n\n\n\n\n\n\nСомневаешься?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nПравда-правда! Добро пожаловать!"
+            android:textColor="#2E7D32"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:gravity="start" />
+    </LinearLayout>
+</ScrollView>

@@ -38,8 +38,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
             holder.complainButton.setVisibility(View.GONE);
         if (!"Администратор".equals(role))
             holder.editButton.setVisibility(View.GONE);
-
-
         // Обработка нажатий
         holder.complainButton.setOnClickListener(v -> listener.onComplainClicked(item));
         holder.editButton.setOnClickListener(v -> listener.onEditClicked(item));

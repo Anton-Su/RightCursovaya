@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class TimetableFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         Button addButton = rootView.findViewById(R.id.button5);
-
         // Создаем пустой список и адаптер
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "Stranger");
@@ -56,20 +56,25 @@ public class TimetableFragment extends Fragment {
 
             @Override
             public void onComplainClicked(Timetable item) {
-                // Создаём AlertDialog для подтверждения
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("Подтверждение")
-                        .setMessage("Вы уверены, что хотите подать жалобу на врача: " + item.getName() + " " + item.getSurname() + " " + item.getPatronymic() + "?")
-                        .setPositiveButton("Да", (dialog, which) -> {
-                            // Здесь будет логика отправки жалобы (если я придумаю, как это сделать)
+                LayoutInflater inflater = LayoutInflater.from(requireContext());
+                View complainView = inflater.inflate(R.layout.dialog_edit_complains, null);
+                EditText input = complainView.findViewById(R.id.edit_description);
 
-                            // Показываем сообщение пользователю
-                            Toast.makeText(requireContext(), "Жалоба подана", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Жалоба на врача: " + item.getName() + " " + item.getSurname() + " " + item.getPatronymic())
+                        .setView(complainView)
+                        .setPositiveButton("Отправить", (dialog, which) -> {
+                            String complaintText = input.getText().toString().trim();
+                            if (!complaintText.isEmpty()) {
+                                // Отправляем жалобу на сервер
+                                ComplainDo(item.getId(), complaintText);
+                            } else {
+                                Toast.makeText(requireContext(), "Введите текст жалобы", Toast.LENGTH_SHORT).show();
+                            }
                         })
                         .setNegativeButton("Отмена", null)
                         .show();
             }
-
             @Override
             public void onEditClicked(Timetable item) {
                 openEditDialog(item);
@@ -87,12 +92,12 @@ public class TimetableFragment extends Fragment {
                     adapter.notifyDataSetChanged(); // Обновляем адаптер
                 } else {
                     // Обработка ошибки
-                    Toast.makeText(requireContext(), "Ошибка получения данных", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Ошибка получения данных", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<List<Timetable>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
         ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
@@ -101,6 +106,26 @@ public class TimetableFragment extends Fragment {
             return insets;
         });
         return rootView;
+    }
+
+    private void ComplainDo(Long id_doctor, String complaintText) {
+
+        Complain complain = new Complain(null, id_doctor, complaintText);
+        api.createComplain(complain).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(requireContext(), "Жалоба отправлена", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(requireContext(), "Ошибка отправки жалобы", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void openEditDialog(Timetable item) {
@@ -143,16 +168,15 @@ public class TimetableFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Timetable> call, Response<Timetable> response) {
                             if (response.isSuccessful()) {
-                                Toast.makeText(requireContext(), "Успешно обновлено", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Успешно обновлено", Toast.LENGTH_LONG).show();
                                 adapter.notifyDataSetChanged(); // обновляем список
                             } else {
-                                Toast.makeText(requireContext(), "Ошибка обновления", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Ошибка обновления", Toast.LENGTH_LONG).show();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<Timetable> call, Throwable t) {
-                            Toast.makeText(requireContext(), "Ошибка сети", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Ошибка сети", Toast.LENGTH_LONG).show();
                         }
                     });
                 })
@@ -162,7 +186,6 @@ public class TimetableFragment extends Fragment {
     private void AddItem(){
         LayoutInflater inflater = LayoutInflater.from(requireContext());
         View dialogView = inflater.inflate(R.layout.dialog_edit_doctor, null);
-
         // Находим поля
         EditText editName = dialogView.findViewById(R.id.edit_name);
         EditText editSurname = dialogView.findViewById(R.id.edit_description);
@@ -191,17 +214,16 @@ public class TimetableFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Timetable> call, Response<Timetable> response) {
                             if (response.isSuccessful() && response.body() != null) {
-                                Toast.makeText(requireContext(), "Врач добавлен", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Врач добавлен", Toast.LENGTH_LONG).show();
                                 doctorList.add(response.body());
                                 adapter.notifyItemInserted(doctorList.size() - 1);
                             } else {
-                                Toast.makeText(requireContext(), "Ошибка добавления", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Ошибка добавления", Toast.LENGTH_LONG).show();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<Timetable> call, Throwable t) {
-                            Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 })

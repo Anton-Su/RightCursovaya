@@ -42,4 +42,7 @@ public interface ApiService {
 
     @DELETE("/illnesses/{id}")
     Call<Void> deleteIllness(@Path("id") Long id);
+
+    @POST("/complains")
+    Call<Void> createComplain(@Body Complain complain);
 }

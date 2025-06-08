@@ -71,6 +71,7 @@ public class ILLFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
+
         // Делаем асинхронный запрос к серверу
         api = ApiClient.getApiService();
         api.getIlnesses().enqueue(new Callback<List<Illness>>() {
@@ -81,13 +82,14 @@ public class ILLFragment extends Fragment {
                     illnesses.addAll(response.body());
                     adapter.updateData(illnesses); // Обновляем адаптер
                 } else {
-                    // Обработка ошибки
-                    Toast.makeText(requireContext(), "Ошибка получения данных", Toast.LENGTH_SHORT).show();
+                    loadFromLocalDb();
+                    Toast.makeText(requireContext(), "Ошибка получения данных", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<List<Illness>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                loadFromLocalDb();
+                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -95,16 +97,13 @@ public class ILLFragment extends Fragment {
         editTextIllness.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 adapter.filter(s.toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) { }
         });
-
         ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -113,24 +112,30 @@ public class ILLFragment extends Fragment {
         return rootView;
     }
 
+    private void loadFromLocalDb() {
+        SQLiteHelper db = new SQLiteHelper(requireContext());
+        List<Illness> localData = db.getAllIllnesses(); // должен быть реализован
+        illnesses.clear();
+        illnesses.addAll(localData);
+        adapter.updateData(illnesses);
+    }
 
     private void Deletion(Illness item) {
         api.deleteIllness(item.getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(requireContext(), "Удалено успешно", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Удалено успешно", Toast.LENGTH_LONG).show();
                     // Обновляем локальный список и адаптер
                     illnesses.removeIf(i -> i.getId().equals(item.getId()));
                     adapter.updateData(illnesses);
                 } else {
-                    Toast.makeText(requireContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Ошибка при удалении", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -138,14 +143,13 @@ public class ILLFragment extends Fragment {
     private void AddItem(){
         LayoutInflater inflater = LayoutInflater.from(requireContext());
         View dialogView = inflater.inflate(R.layout.dialog_edit_illnesses, null);
-
         // Находим поля
         EditText editName = dialogView.findViewById(R.id.edit_name);
         EditText editdescription = dialogView.findViewById(R.id.edit_description);
         EditText edit_recommendations = dialogView.findViewById(R.id.edit_recommendations);
         // Показываем диалог
         new AlertDialog.Builder(requireContext())
-                .setTitle("Добавить врача")
+                .setTitle("Добавить болезнь")
                 .setView(dialogView)
                 .setPositiveButton("Сохранить", (dialog, which) -> {
                     // Создаем объект Timetable
@@ -159,17 +163,16 @@ public class ILLFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Illness> call, Response<Illness> response) {
                             if (response.isSuccessful() && response.body() != null) {
-                                Toast.makeText(requireContext(), "Врач добавлен", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Врач добавлен", Toast.LENGTH_LONG).show();
                                 illnesses.add(response.body());
                                 adapter.updateData(illnesses);
                             } else {
-                                Toast.makeText(requireContext(), "Ошибка добавления", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Ошибка добавления", Toast.LENGTH_LONG).show();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<Illness> call, Throwable t) {
-                            Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Ошибка сети: " + t.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 })

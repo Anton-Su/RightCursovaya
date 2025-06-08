@@ -33,17 +33,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         if (item.getItemId() == R.id.home)
-                        {
                             changeto(view, new RegFragment(), "fragment1");
-                        }
                         else if (item.getItemId() == R.id.doctor)
-                        {
                             changeto(view, new TimetableFragment(), "fragment2");
-                        }
-                        else
-                        {
+                        else if (item.getItemId() == R.id.book)
                             changeto(view, new ILLFragment(), "fragment3");
-                        }
+                        else
+                            changeto(view, new StarFragment(), "fragment4");
                         return true;
                     }
                 });

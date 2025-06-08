@@ -7,9 +7,14 @@
     <item
         android:id="@+id/doctor"
         android:icon="@drawable/doctor"
-        android:title="Расписание" />
+        android:title="Врачи" />
     <item
         android:id="@+id/book"
         android:icon="@drawable/book"
         android:title="Справочник" />
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/star"
+        android:title="О нас" />
 </menu>
